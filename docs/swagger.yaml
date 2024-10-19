@@ -1,0 +1,153 @@
+basePath: /
+definitions:
+  Models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      surname:
+        type: string
+    type: object
+  Services.UserRegisterModel:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      surname:
+        type: string
+    type: object
+host: localhost:5555
+info:
+  contact: {}
+  description: This is a sample API for testing Swagger integration
+  title: Test API
+  version: "1.0"
+paths:
+  /user/all:
+    get:
+      description: Возвращает список всех пользователей из базы данных
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/Models.User'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Получить всех пользователей
+      tags:
+      - users
+  /user/create:
+    post:
+      consumes:
+      - application/json
+      description: Создает нового пользователя на основе предоставленных данных
+      parameters:
+      - description: Данные пользователя
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/Services.UserRegisterModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User added successfully
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Создать нового пользователя
+      tags:
+      - users
+  /user/delete/{id}:
+    delete:
+      description: Удаляет пользователя по ID
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: User was removed successfully
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Удалить пользователя
+      tags:
+      - users
+  /user/getById/{id}:
+    get:
+      description: Возвращает пользователя по указанному ID
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/Models.User'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: User Not Found
+          schema:
+            type: string
+      summary: Получить пользователя по ID
+      tags:
+      - users
+  /user/update:
+    patch:
+      consumes:
+      - application/json
+      description: Обновляет имя, фамилию или email пользователя по его ID
+      parameters:
+      - description: Обновленные данные пользователя
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/Models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User was updated successfully
+          schema:
+            type: string
+        "400":
+          description: User not found
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Обновить данные пользователя
+      tags:
+      - users
+swagger: "2.0"

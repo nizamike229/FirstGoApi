@@ -2,14 +2,21 @@ package main
 
 import (
 	"TestApi/Services"
+	_ "TestApi/docs"
 	"database/sql"
 	"fmt"
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"log"
 	"net/http"
 	"os"
 )
 
+// @title Test API
+// @version 1.0
+// @description This is a sample API for testing Swagger integration
+// @host localhost:5555
+// @BasePath /
 func main() {
 	var connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		os.Getenv("DB_HOST"),
@@ -31,6 +38,8 @@ func main() {
 	router.HandleFunc("/user/create", Services.CreateUser).Methods("POST")
 	router.HandleFunc("/user/delete/{id}", Services.RemoveUserById).Methods("DELETE")
 	router.HandleFunc("/user/update", Services.UpdateUserById).Methods("PATCH")
+
+	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
 	_ = http.ListenAndServe(":8080", router)
 }

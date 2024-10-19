@@ -31,6 +31,14 @@ var connStr = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode
 	os.Getenv("DB_PASSWORD"),
 	os.Getenv("DB_NAME"))
 
+// GetAllUsers godoc
+// @Summary Получить всех пользователей
+// @Description Возвращает список всех пользователей из базы данных
+// @Tags users
+// @Produce json
+// @Success 200 {array} Models.User
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /user/all [get]
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	var Users []Models.User
 	rows, err := db.Query("SELECT id as Id,name as Name,surname as Surname,email as Email FROM users")
@@ -54,6 +62,16 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(Users)
 }
 
+// GetUserById godoc
+// @Summary Получить пользователя по ID
+// @Description Возвращает пользователя по указанному ID
+// @Tags users
+// @Produce json
+// @Param id path int true "ID пользователя"
+// @Success 200 {object} Models.User
+// @Failure 400 {string} string "Bad Request"
+// @Failure 404 {string} string "User Not Found"
+// @Router /user/getById/{id} [get]
 func GetUserById(w http.ResponseWriter, r *http.Request) {
 	Users := getAllUserPrivate()
 	inputId := mux.Vars(r)["id"]
@@ -65,6 +83,16 @@ func GetUserById(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(filteredUsers)
 }
 
+// CreateUser godoc
+// @Summary Создать нового пользователя
+// @Description Создает нового пользователя на основе предоставленных данных
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body UserRegisterModel true "Данные пользователя"
+// @Success 200 {string} string "User added successfully"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /user/create [post]
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
@@ -90,6 +118,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(message)
 }
 
+// RemoveUserById godoc
+// @Summary Удалить пользователя
+// @Description Удаляет пользователя по ID
+// @Tags users
+// @Param id path int true "ID пользователя"
+// @Success 200 {string} string "User was removed successfully"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /user/delete/{id} [delete]
 func RemoveUserById(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
@@ -105,6 +141,17 @@ func RemoveUserById(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode("User was removed successfully!")
 }
 
+// UpdateUserById godoc
+// @Summary Обновить данные пользователя
+// @Description Обновляет имя, фамилию или email пользователя по его ID
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user body Models.User true "Обновленные данные пользователя"
+// @Success 200 {string} string "User was updated successfully"
+// @Failure 400 {string} string "User not found"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /user/update [patch]
 func UpdateUserById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var editRequest Models.User

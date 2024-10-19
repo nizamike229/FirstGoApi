@@ -23,10 +23,6 @@ Thumbs.db
 /vendor/
 node_modules/
 
-# Исключаем файлы модулей Go, так как они будут загружены при сборке
-/go.sum
-/go.mod
-
 # Исключаем кеш Go
 /.cache/
 
