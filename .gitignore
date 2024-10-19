@@ -34,7 +34,6 @@ Thumbs.db
 /*.exe
 /test_*.exe
 *.coverprofile
-*.test
 
 # Docker
 docker-compose.override.yml
