@@ -1,0 +1,45 @@
+﻿# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Go build artifacts
+/bin/
+/pkg/
+/vendor/
+/build/
+/dist/
+
+# Скомпилированные двоичные файлы
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# Логи и временные файлы
+*.log
+*.out
+*.tmp
+
+# Настройки среды GoLand
+.idea/
+*.iml
+
+# Модули и зависимости Go
+/go.sum
+/go.mod
+
+# Кеш и пакеты Go
+/.cache/
+/*.exe
+/test_*.exe
+*.coverprofile
+*.test
+
+# Docker
+docker-compose.override.yml
+.env
+
+# Всяческие временные файлы
+*.swp
+*.swo
