@@ -25,10 +25,6 @@ Thumbs.db
 .idea/
 *.iml
 
-# Модули и зависимости Go
-/go.sum
-/go.mod
-
 # Кеш и пакеты Go
 /.cache/
 /*.exe
